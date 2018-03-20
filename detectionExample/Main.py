@@ -128,12 +128,12 @@ def main():
             person_index = None
 
             print (TRACK_MODE)
-            PersonList = {}
+            PersonList = []
 
             for index, r in enumerate(results):
                 #print("Found %s with confidence %g at Left: %g, Right %g, Top %g, Bottom %g" %(r.name, r.confidence, r.left, r.right, r.top, r.bottom))
                 if r.name == "person" and r.confidence > max_confidence:
-                    PersonList[index] = r
+                    PersonList.append(r)
                     max_confidence = r.confidence
                     person_index = index
                     print("Name is person. index is %d" % person_index)
@@ -143,12 +143,10 @@ def main():
             if (PersonList == {}):
                 print("No people detected")
             else:
-                BiggestIndex = 0
-                for key,value in enumerate(PersonList):
-                    print(key)
-                    print("da let is " + value)
+                BiggestIndex = None:
+                for x in PersonList:
                     if (key != BiggestIndex):
-                        if ((PersonList[BiggestIndex].left - PersonList[BiggestIndex].right) < (value.left - value.right)):
+                        if ((PersonList[BiggestIndex].left - PersonList[BiggestIndex].right) < (x.left - x.right)):
                             print("New entry is bigger")
                             BiggestIndex = key
 

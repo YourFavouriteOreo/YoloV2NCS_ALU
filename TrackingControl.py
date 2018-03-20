@@ -79,6 +79,7 @@ def main():
             open_cv_image = np.array(pil_image)
             # Convert RGB to BGR
             print(open_cv_image)
+            print("PEANUTS!")
             open_cv_image = open_cv_image[:, :, ::-1].copy()
             print(open_cv_image)
             duration = time.time() - start

@@ -145,10 +145,10 @@ def main():
             else:
                 BiggestIndex = None
                 for x in PersonList:
-                    if (key != BiggestIndex):
+                    if (x != BiggestIndex):
                         if ((PersonList[BiggestIndex].left - PersonList[BiggestIndex].right) < (x.left - x.right)):
                             print("New entry is bigger")
-                            BiggestIndex = key
+                            BiggestIndex = x
 
             if person_index is not None:
                 r = results[person_index]

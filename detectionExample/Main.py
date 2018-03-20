@@ -142,6 +142,13 @@ def main():
             
             if (PersonList == {}):
                 print("No people detected")
+            else:
+                BiggestIndex = 0
+                for key,value in enumerate(PersonList):
+                    if (key != BiggestIndex):
+                        if ((PersonList[BiggestIndex]left - PersonList[BiggestIndex]right) < (value.left - value.right)):
+                            print("New entry is bigger")
+                            BiggestIndex = key
 
             if person_index is not None:
                 r = results[person_index]

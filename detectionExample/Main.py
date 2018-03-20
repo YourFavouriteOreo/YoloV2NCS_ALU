@@ -146,7 +146,7 @@ def main():
                 BiggestIndex = 0
                 for key,value in enumerate(PersonList):
                     print(key)
-                    print("da left is "+value.left)
+                    print("da let is " + value)
                     if (key != BiggestIndex):
                         if ((PersonList[BiggestIndex].left - PersonList[BiggestIndex].right) < (value.left - value.right)):
                             print("New entry is bigger")

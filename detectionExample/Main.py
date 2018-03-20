@@ -18,6 +18,9 @@ def print_spaces(num_spaces):
     print(' ' * num_spaces + '||')
 
 def main():
+    if((sys.argv[1] != "--image") or sys.argv[1] != "--video"):
+        print("No parameters passed . Please pass in image or video")
+        return 
     parser = argparse.ArgumentParser()
     parser.add_argument('--graph', dest='graph', type=str,
                         default='graph', help='MVNC graphs.')
@@ -153,8 +156,7 @@ def main():
                 plt.draw()
                 plt.pause(0.001)
                 plt.savefig('%s.png' % filename)
-    elif((sys.argv[1] != "--image") or sys.argv[1] != "--video"):
-        print("No parameters passed . Please pass in image or video")
+    
 
 if __name__ == '__main__':
     main()

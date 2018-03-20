@@ -2,7 +2,7 @@ import sys,os,time,csv,getopt,argparse
 import numpy as np
 from datetime import datetime
 from PIL import Image
-from ObjectWrapper import *
+from ./detectionExample/ObjectWrapper import *
 #from Visualize import *
 import time
 import matplotlib.pyplot as plt

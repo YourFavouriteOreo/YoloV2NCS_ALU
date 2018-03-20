@@ -73,7 +73,7 @@ def main():
         camera.resolution = (320,180)
         #camera.start_preview()
         time.sleep(2)
-
+2
         for image in range(100):
             elapsedTime = datetime.now()-start_time
             start_time = datetime.now()
@@ -153,6 +153,8 @@ def main():
                 plt.draw()
                 plt.pause(0.001)
                 plt.savefig('%s.png' % filename)
+    else:
+        print("No parameters passed . Please pass in image or video")
 
 if __name__ == '__main__':
     main()

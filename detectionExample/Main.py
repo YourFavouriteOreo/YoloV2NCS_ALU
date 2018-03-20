@@ -4,15 +4,17 @@ from datetime import datetime
 from PIL import Image
 from ObjectWrapper import *
 #from Visualize import *
-
 import time
-
 import matplotlib.pyplot as plt
 import matplotlib.patches as patches
-
 import picamera
 
+LastPerson = ""
+
+
 SHOW_GUI = False
+
+TRACK_MODE = True
 
 def print_spaces(num_spaces):
     print(' ' * num_spaces + '||')
@@ -21,6 +23,7 @@ def main():
     if((len(sys.argv)>1) is False):
         print("No parameters passed . Please pass in image or video")
         return
+
     parser = argparse.ArgumentParser()
     parser.add_argument('--graph', dest='graph', type=str,
                         default='graph', help='MVNC graphs.')
@@ -123,14 +126,22 @@ def main():
             # Find the strongest match for "person"
             max_confidence = 0.0
             person_index = None
+
+            print (TRACK_MODE)
+            PersonList = {}
+
             for index, r in enumerate(results):
                 print("Found %s with confidence %g at Left: %g, Right %g, Top %g, Bottom %g" %(r.name, r.confidence, r.left, r.right, r.top, r.bottom))
                 if r.name == "person" and r.confidence > max_confidence:
+                    PersonList[index] = r
                     max_confidence = r.confidence
                     person_index = index
                     print("Name is person. index is %d" % person_index)
                 else:
                     print("%s is not person" % r.name)
+            
+            if (PersonList == {}):
+                print("No people detected")
 
             if person_index is not None:
                 r = results[person_index]

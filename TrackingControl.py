@@ -132,9 +132,5 @@ def main():
                 center = int((r.right + r.left)/2)
                 print_spaces(center)
 
-            if (bIsTracking):
-
-    
-
 if __name__ == '__main__':
     main()

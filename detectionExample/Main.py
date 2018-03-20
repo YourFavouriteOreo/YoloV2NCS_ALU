@@ -143,9 +143,11 @@ def main():
             if (PersonList == {}):
                 print("No people detected")
             else:
-                BiggestIndex = PersonList[0]
+                BiggestIndex = None
                 for x in PersonList:
-                    if (x != BiggestIndex):
+                    if BiggestIndex is None:
+                        BiggestIndex = x
+                    elif (x != BiggestIndex):
                         if ((PersonList[BiggestIndex].left - PersonList[BiggestIndex].right) < (x.left - x.right)):
                             print("New entry is bigger")
                             BiggestIndex = x

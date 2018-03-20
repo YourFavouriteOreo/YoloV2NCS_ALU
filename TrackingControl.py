@@ -2,7 +2,7 @@ import sys,os,time,csv,getopt,argparse
 import numpy as np
 from datetime import datetime
 from PIL import Image
-from ./detectionExample/ObjectWrapper import *
+from ObjectWrapper import *
 #from Visualize import *
 import time
 import matplotlib.pyplot as plt
@@ -15,9 +15,6 @@ bIsTracking = False
 
 
 TRACK_MODE = True
-
-def print_spaces(num_spaces):
-    print(' ' * num_spaces + '||')
 
 def main():
     if((len(sys.argv)>1) is False):
@@ -39,25 +36,26 @@ def main():
 
     detector = ObjectWrapper(network_blob)
     stickNum = ObjectWrapper.devNum
-
+    
+8
         #imdraw = Visualize(img, results)
         #cv2.imshow('Demo',imdraw)
         #cv2.imwrite('test.jpg',imdraw)
-        #cv2.waitKey(10000)
+        #cv22.waitKey(10000)
     if sys.argv[1] == '--video':
         plt.ion()
         plt.show()
 
         camera = picamera.PiCamera()
         camera.hflip = False
-        camera.vflip = False
+        camera.vflip = True
         start_time = datetime.now()
 
         stream = io.BytesIO()
         #camera.resolution = (320,180)
         camera.resolution = (320,180)
         #camera.start_preview()
-        time.sleep(2)
+  8      time.sleep(2)
 
         for image in range(100):
             elapsedTime = datetime.now()-start_time
@@ -73,14 +71,16 @@ def main():
 
             start = time.time()
 
-            stream.seek(0)
+ 2           stream.seek(0)
             camera.capture(stream, format='jpeg')
             stream.seek(0)
             convert = time.time()
             pil_image = Image.open(stream)
             open_cv_image = np.array(pil_image)
             # Convert RGB to BGR
+            print(open_cv_image)
             open_cv_image = open_cv_image[:, :, ::-1].copy()
+            print(open_cv_image)
             duration = time.time() - start
             convert_duration = time.time() - convert
             #print("Image sampling time %d ms including %d ms to convert the image." % (int(duration * 1000), int(convert_duration * 1000)))
@@ -90,9 +90,9 @@ def main():
             duration = time.time() - start
             #print("Network Calculation time %d ms" % int(duration * 1000))
 
-            # ['__class__', '__delattr__', '__dict__', '__dir__', '__doc__', '__eq__', '__format__', '__ge__', '__getattribute__', '__gt__', '__hash__',
+2            # ['__class__', '__delattr__', '__dict__', '__dir__', '__doc__', '__eq__', '__format__', '__ge__', '__getattribute__', '__gt__', '__hash__',
             # '__init__', '__le__', '__lt__', '__module__', '__ne__', '__new__', '__reduce__', '__reduce_ex__', '__repr__', '__setattr__', '__sizeof__',
-            # '__str__', '__subclasshook__', '__weakref__', 'bottom', 'confidence', 'left', 'name', 'objType', 'right', 'top']
+            # '__str__', '__subclasshook__2', '__weakref__', 'bottom', 'confidence', 'left', 'name', 'objType', 'right', 'top']
             #
             # Found person at Left: 124, Right 298, Top 13, Bottom 168
 

@@ -131,7 +131,7 @@ def main():
             PersonList = {}
 
             for index, r in enumerate(results):
-                print("Found %s with confidence %g at Left: %g, Right %g, Top %g, Bottom %g" %(r.name, r.confidence, r.left, r.right, r.top, r.bottom))
+                #print("Found %s with confidence %g at Left: %g, Right %g, Top %g, Bottom %g" %(r.name, r.confidence, r.left, r.right, r.top, r.bottom))
                 if r.name == "person" and r.confidence > max_confidence:
                     PersonList[index] = r
                     max_confidence = r.confidence
@@ -146,6 +146,7 @@ def main():
                 BiggestIndex = 0
                 for key,value in enumerate(PersonList):
                     print(key)
+                    print(value)
                     if (key != BiggestIndex):
                         if ((PersonList[BiggestIndex].left - PersonList[BiggestIndex].right) < (value.left - value.right)):
                             print("New entry is bigger")

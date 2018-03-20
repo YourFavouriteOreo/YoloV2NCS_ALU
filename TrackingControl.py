@@ -37,7 +37,7 @@ def main():
     detector = ObjectWrapper(network_blob)
     stickNum = ObjectWrapper.devNum
     
-8
+
         #imdraw = Visualize(img, results)
         #cv2.imshow('Demo',imdraw)
         #cv2.imwrite('test.jpg',imdraw)
@@ -55,7 +55,7 @@ def main():
         #camera.resolution = (320,180)
         camera.resolution = (320,180)
         #camera.start_preview()
-  8      time.sleep(2)
+        time.sleep(2)
 
         for image in range(100):
             elapsedTime = datetime.now()-start_time
@@ -71,7 +71,7 @@ def main():
 
             start = time.time()
 
- 2           stream.seek(0)
+            stream.seek(0)
             camera.capture(stream, format='jpeg')
             stream.seek(0)
             convert = time.time()
@@ -90,7 +90,7 @@ def main():
             duration = time.time() - start
             #print("Network Calculation time %d ms" % int(duration * 1000))
 
-2            # ['__class__', '__delattr__', '__dict__', '__dir__', '__doc__', '__eq__', '__format__', '__ge__', '__getattribute__', '__gt__', '__hash__',
+            # ['__class__', '__delattr__', '__dict__', '__dir__', '__doc__', '__eq__', '__format__', '__ge__', '__getattribute__', '__gt__', '__hash__',
             # '__init__', '__le__', '__lt__', '__module__', '__ne__', '__new__', '__reduce__', '__reduce_ex__', '__repr__', '__setattr__', '__sizeof__',
             # '__str__', '__subclasshook__2', '__weakref__', 'bottom', 'confidence', 'left', 'name', 'objType', 'right', 'top']
             #

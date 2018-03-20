@@ -143,7 +143,7 @@ def main():
             if (PersonList == {}):
                 print("No people detected")
             else:
-                BiggestIndex = None
+                BiggestIndex = PersonList[0]
                 for x in PersonList:
                     if (x != BiggestIndex):
                         if ((PersonList[BiggestIndex].left - PersonList[BiggestIndex].right) < (x.left - x.right)):

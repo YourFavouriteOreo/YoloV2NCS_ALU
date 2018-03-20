@@ -153,7 +153,7 @@ def main():
                 plt.draw()
                 plt.pause(0.001)
                 plt.savefig('%s.png' % filename)
-    else:
+    elif((sys.argv[1] != "--image") or sys.argv[1] != "--video"):
         print("No parameters passed . Please pass in image or video")
 
 if __name__ == '__main__':

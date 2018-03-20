@@ -9,7 +9,9 @@ import matplotlib.pyplot as plt
 import matplotlib.patches as patches
 import picamera
 
+
 LastPerson = ""
+bIsTracking = False
 
 
 TRACK_MODE = True
@@ -113,6 +115,7 @@ def main():
             
             if (PersonList == {}):
                 print("No people detected")
+                bIsTracking = False
             else:
                 BiggestIndex = None
                 for x in PersonList:
@@ -121,11 +124,15 @@ def main():
                     elif (x != BiggestIndex):
                         if ((BiggestIndex.left - BiggestIndex.right) < (x.left - x.right)):
                             BiggestIndex = x
+                bIsTracking = True
+
 
             if person_index is not None:
                 r = results[person_index]
                 center = int((r.right + r.left)/2)
                 print_spaces(center)
+
+            if (bIsTracking):
 
     
 

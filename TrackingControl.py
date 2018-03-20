@@ -12,8 +12,6 @@ import picamera
 LastPerson = ""
 
 
-SHOW_GUI = False
-
 TRACK_MODE = True
 
 def print_spaces(num_spaces):
@@ -40,32 +38,11 @@ def main():
     detector = ObjectWrapper(network_blob)
     stickNum = ObjectWrapper.devNum
 
-
-
-    if sys.argv[1] == '--image':
-        # image preprocess
-        #img = cv2.imread(imagefile)
-        pil_image = Image.open(imagefile).convert('RGB')
-        open_cv_image = np.array(pil_image)
-        # Convert RGB to BGR
-        open_cv_image = open_cv_image[:, :, ::-1].copy()
-        start = datetime.now()
-
-        results = detector.Detect(open_cv_image)
-
-        for r in results:
-            print(r.name)
-
-        end = datetime.now()
-        elapsedTime = end-start
-
-        print ('total time is " milliseconds', elapsedTime.total_seconds()*1000)
-
         #imdraw = Visualize(img, results)
         #cv2.imshow('Demo',imdraw)
         #cv2.imwrite('test.jpg',imdraw)
         #cv2.waitKey(10000)
-    elif sys.argv[1] == '--video':
+    if sys.argv[1] == '--video':
         plt.ion()
         plt.show()
 
@@ -117,12 +94,6 @@ def main():
             #
             # Found person at Left: 124, Right 298, Top 13, Bottom 168
 
-            if SHOW_GUI:
-                text = ""
-                plt.gcf().clear()
-                fig,ax = plt.subplots(1)
-                imgplot = ax.imshow(pil_image)
-
             # Find the strongest match for "person"
             max_confidence = 0.0
             person_index = None
@@ -156,25 +127,6 @@ def main():
                 center = int((r.right + r.left)/2)
                 print_spaces(center)
 
-            if SHOW_GUI:
-                if person_index is not None:
-                    r = results[person_index]
-                #for r in results:
-                    #print(r.name)
-                    text = r.name
-                    width = r.right-r.left
-                    height = r.bottom-r.top
-
-                    print("width %d, height %d" %(width, height))
-                    rect = patches.Rectangle((r.left,r.top),width, height,linewidth=1,edgecolor='r',facecolor='none')
-                    ax.add_patch(rect)
-
-                plt.text(20, -20, text)
-                plt.xticks([])
-                plt.yticks([])
-                plt.draw()
-                plt.pause(0.001)
-                plt.savefig('%s.png' % filename)
     
 
 if __name__ == '__main__':

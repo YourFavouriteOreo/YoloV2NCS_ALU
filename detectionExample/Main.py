@@ -73,7 +73,7 @@ def main():
         camera.resolution = (320,180)
         #camera.start_preview()
         time.sleep(2)
-2
+
         for image in range(100):
             elapsedTime = datetime.now()-start_time
             start_time = datetime.now()

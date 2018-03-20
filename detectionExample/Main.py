@@ -18,9 +18,9 @@ def print_spaces(num_spaces):
     print(' ' * num_spaces + '||')
 
 def main():
-    if((sys.argv[1] != "--image") or sys.argv[1] != "--video"):
+    if((sys.argv[1] is None):
         print("No parameters passed . Please pass in image or video")
-        return 
+        return
     parser = argparse.ArgumentParser()
     parser.add_argument('--graph', dest='graph', type=str,
                         default='graph', help='MVNC graphs.')

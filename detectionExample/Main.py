@@ -18,7 +18,7 @@ def print_spaces(num_spaces):
     print(' ' * num_spaces + '||')
 
 def main():
-    if((sys.argv[1] is None):
+    if((len(sys.argv)>1) is False):
         print("No parameters passed . Please pass in image or video")
         return
     parser = argparse.ArgumentParser()

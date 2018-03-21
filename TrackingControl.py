@@ -8,6 +8,7 @@ import time
 import matplotlib.pyplot as plt
 import matplotlib.patches as patches
 import picamera
+import random
 
 
 
@@ -53,10 +54,10 @@ def identify_person():
 
         print ('total time is %d milliseconds' % int(elapsedTime.total_seconds()*1000))
 
-        count +=1
+        
 
 
-        filename = 'images/image_%d.jpg'%count
+        filename = 'images/image_%d.jpg'% random.randint(1,1000)
         start = time.time()
 
         stream.seek(0)
@@ -112,7 +113,7 @@ def biggestbbox(PersonList):
     return biggestIndex
 
 def movementctrl(PersonTracking):
-    print("Person width is " + (PersonTracking.right - PersonTracking.left))
+    print("Pers8on width is " + (PersonTracking.right - PersonTracking.left))
     
     # while bIsTracking:
     #     width_2person = int (biggestIndex.right - biggestIndex.left)
@@ -121,7 +122,7 @@ def movementctrl(PersonTracking):
     #     width_screen = 416
 
         # if abs(center_person - center_screen) > 15:     #center - screen width /2
-        #     while center_screen != center_person:
+        #     wh8ile center_screen != center_person:
         #         if center_screen < center_person:
         #             move right
         #         else
@@ -138,8 +139,7 @@ def FindPerson():
     print("IS palce holder")
 
 def main():
-    global count
-    count = 0
+    
     if((len(sys.argv)>1) is False):
             print("No parameters passed . Please pass in image or video")
             return

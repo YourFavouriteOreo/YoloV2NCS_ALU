@@ -8,6 +8,7 @@ import time
 import matplotlib.pyplot as plt
 import matplotlib.patches as patches
 import picamera
+import flutter_control as fc
 
 
 LastPerson = ""
@@ -146,6 +147,7 @@ def main():
             break
         else:
             movementctrl(CurrentPerson)
+            print("Movement Control reached")
     
 
 

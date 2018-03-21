@@ -18,7 +18,7 @@ detector = None
 stickNum = None
 TRACK_MODE = True
 
-def identify_person():
+def identify_person(detector,stickNum):
     
     if sys.argv[1] == '--video':
         plt.ion()
@@ -144,7 +144,7 @@ def main():
     stickNum = ObjectWrapper.devNum
 
     while True:
-        CurrentPerson = biggestbbox(identify_person())
+        CurrentPerson = biggestbbox(identify_person(detector,stickNum))
         if CurrentPerson == None:
             pass
         else:

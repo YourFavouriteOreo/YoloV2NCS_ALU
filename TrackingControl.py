@@ -138,7 +138,7 @@ def FindPerson():
     print("IS palce holder")
 
 def main():
-    count = 0
+    global count = 0
     if((len(sys.argv)>1) is False):
             print("No parameters passed . Please pass in image or video")
             return

@@ -14,11 +14,28 @@ camera = picamera.PiCamera()
 LastPerson = ""
 bIsTracking = False
 count = 0
-detector = None
-stickNum = None
 TRACK_MODE = True
 
 def identify_person(detector,stickNum):
+    if((len(sys.argv)>1) is False):
+            print("No parameters passed . Please pass in image or video")
+            return
+    
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--graph', dest='graph', type=str,
+                        default='graph', help='MVNC graphs.')
+    parser.add_argument('--image', dest='image', type=str,
+                        default='./images/dog.jpg', help='An image path.')
+    parser.add_argument('--video', dest='video', type=str,
+                        default='./videos/car.avi', help='A video path.')
+    args = parser.parse_args()
+
+    network_blob=args.graph
+    imagefile = args.image
+    videofile = args.video
+
+    detector = ObjectWrapper(network_blob)
+    stickNum = ObjectWrapper.devNum
     
     if sys.argv[1] == '--video':
         plt.ion()
@@ -123,25 +140,7 @@ def FindPerson():
     print("IS palce holder")
 
 def main():
-    if((len(sys.argv)>1) is False):
-            print("No parameters passed . Please pass in image or video")
-            return
     
-    parser = argparse.ArgumentParser()
-    parser.add_argument('--graph', dest='graph', type=str,
-                        default='graph', help='MVNC graphs.')
-    parser.add_argument('--image', dest='image', type=str,
-                        default='./images/dog.jpg', help='An image path.')
-    parser.add_argument('--video', dest='video', type=str,
-                        default='./videos/car.avi', help='A video path.')
-    args = parser.parse_args()
-
-    network_blob=args.graph
-    imagefile = args.image
-    videofile = args.video
-
-    detector = ObjectWrapper(network_blob)
-    stickNum = ObjectWrapper.devNum
 
     while True:
         CurrentPerson = biggestbbox(identify_person(detector,stickNum))
@@ -151,7 +150,6 @@ def main():
             movementctrl(CurrentPerson)
             print("Movement Control reached")
     
-
 
 if __name__ == '__main__':
     main()

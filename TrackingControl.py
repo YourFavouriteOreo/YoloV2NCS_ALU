@@ -50,7 +50,7 @@ def identify_person():
         camera.resolution = (320,180)
         time.sleep(2)
 
-        for image in range(100):
+        while True:
             elapsedTime = datetime.now()-start_time
             start_time = datetime.now()
 

@@ -78,7 +78,7 @@ def identify_person():
             max_confidence = 0.0
             person_index = None
 
-            print ( "Track Mode : "+ TRACK_MODE)
+            print ( "Track Mode : "+ str(TRACK_MODE) )
             PersonList = []
 
             for index, r in enumerate(results):

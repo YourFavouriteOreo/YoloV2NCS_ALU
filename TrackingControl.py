@@ -8,13 +8,12 @@ import time
 import matplotlib.pyplot as plt
 import matplotlib.patches as patches
 import picamera
-import random
 
 
 
 LastPerson = ""
 bIsTracking = False
-
+count = 0
 
 TRACK_MODE = True
 
@@ -48,51 +47,50 @@ def identify_person():
         camera.resolution = (320,180)
         time.sleep(2)
 
-        
-        elapsedTime = datetime.now()-start_time
-        start_time = datetime.now()
+        for image in range(2):
+            elapsedTime = datetime.now()-start_time
+            start_time = datetime.now()
 
-        print ('total time is %d milliseconds' % int(elapsedTime.total_seconds()*1000))
-
-        
+            print ('total time is %d milliseconds' % int(elapsedTime.total_seconds()*1000))
 
 
-        filename = 'images/image_%d.jpg'%random.randint(1,1000)
-        start = time.time()
 
-        stream.seek(0)
-        camera.capture(stream, format='jpeg')
-        stream.seek(0)
-        convert = time.time()
-        pil_image = Image.open(stream)
-        open_cv_image = np.array(pil_image)
-        # Convert RGB to BGR
-        open_cv_image = open_cv_image[:, :, ::-1].copy()
-        duration = time.time() - start
-        convert_duration = time.time() - convert
-        #print("Image sampling time %d ms including %d ms to convert the image." % (int(duration * 1000), int(convert_duration * 1000)))
+            filename = 'images/image_%d.jpg'%image
+            start = time.time()
 
-        start = time.time()
-        results = detector.Detect(open_cv_image)
-        duration = time.time() - start
-        #print("Network Calculation ti8me %d ms" % int(duration * 1000))
+            stream.seek(0)
+            camera.capture(stream, format='jpeg')
+            stream.seek(0)
+            convert = time.time()
+            pil_image = Image.open(stream)
+            open_cv_image = np.array(pil_image)
+            # Convert RGB to BGR
+            open_cv_image = open_cv_image[:, :, ::-1].copy()
+            duration = time.time() - start
+            convert_duration = time.time() - convert
+            #print("Image sampling time %d ms including %d ms to convert the image." % (int(duration * 1000), int(convert_duration * 1000)))
 
-        # Find the strongest match for "person"
-        max_confidence = 0.0
-        person_index = None
+            start = time.time()
+            results = detector.Detect(open_cv_image)
+            duration = time.time() - start
+            #print("Network Calculation time %d ms" % int(duration * 1000))
 
-        print ( "Track Mode : "+ str(TRACK_MODE) )
-        PersonList = []
+            # Find the strongest match for "person"
+            max_confidence = 0.0
+            person_index = None
 
-        for index, r in enumerate(results):
-            print("Found %s with confidence %g at Left: %g, Right %g, Top %g, Bottom %g" %(r.name, r.confidence, r.left, r.right, r.top, r.bottom))
-            if r.name == "person" and r.confidence > max_confidence:
-                PersonList.append(r)
-                max_confidence = r.confidence
-                person_index = index 
-                print("Name is person. index is %d" % person_index)
-            else:
-                print("%s is not person" % r.name)
+            print ( "Track Mode : "+ str(TRACK_MODE) )
+            PersonList = []
+
+            for index, r in enumerate(results):
+                print("Found %s with confidence %g at Left: %g, Right %g, Top %g, Bottom %g" %(r.name, r.confidence, r.left, r.right, r.top, r.bottom))
+                if r.name == "person" and r.confidence > max_confidence:
+                    PersonList.append(r)
+                    max_confidence = r.confidence
+                    person_index = index 
+                    print("Name is person. index is %d" % person_index)
+                else:
+                    print("%s is not person" % r.name)
     return PersonList
             
                 
@@ -139,7 +137,6 @@ def FindPerson():
     print("IS palce holder")
 
 def main():
-    
     if((len(sys.argv)>1) is False):
             print("No parameters passed . Please pass in image or video")
             return
@@ -147,7 +144,7 @@ def main():
     while True:
         CurrentPerson = biggestbbox(identify_person())
         if CurrentPerson == None:
-            pass
+            break
         else:
             movementctrl(CurrentPerson)
             print("Movement Control reached")

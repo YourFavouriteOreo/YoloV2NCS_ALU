@@ -14,10 +14,11 @@ camera = picamera.PiCamera()
 LastPerson = ""
 bIsTracking = False
 count = 0
-
+detector = None
+stickNum = None
 TRACK_MODE = True
 
-def identify_person():
+def argumentParsing():
     parser = argparse.ArgumentParser()
     parser.add_argument('--graph', dest='graph', type=str,
                         default='graph', help='MVNC graphs.')
@@ -33,6 +34,8 @@ def identify_person():
 
     detector = ObjectWrapper(network_blob)
     stickNum = ObjectWrapper.devNum
+
+def identify_person():
     
     if sys.argv[1] == '--video':
         plt.ion()
@@ -140,6 +143,8 @@ def main():
     if((len(sys.argv)>1) is False):
             print("No parameters passed . Please pass in image or video")
             return
+    else:
+        argumentParsing()
 
     while True:
         CurrentPerson = biggestbbox(identify_person())

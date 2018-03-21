@@ -10,7 +10,7 @@ import matplotlib.patches as patches
 import picamera
 
 
-
+camera = picamera.PiCamera()
 LastPerson = ""
 bIsTracking = False
 count = 0
@@ -38,7 +38,7 @@ def identify_person():
         plt.ion()
         plt.show()
 
-        camera = picamera.PiCamera()
+        
         camera.hflip = False
         camera.vflip = True
         start_time = datetime.now()

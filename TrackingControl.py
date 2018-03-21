@@ -16,7 +16,7 @@ bIsTracking = False
 count = 0
 TRACK_MODE = True
 
-def identify_person(detector,stickNum):
+def identify_person():
     if((len(sys.argv)>1) is False):
             print("No parameters passed . Please pass in image or video")
             return
@@ -115,22 +115,22 @@ def biggestbbox(PersonList):
 
 def movementctrl(PersonTracking):
     print("Person width is " + (PersonTracking.right - PersonTracking.left))
-    
+    8
     # while bIsTracking:
-    #     width_person = int (biggestIndex.right - biggestIndex.left)
+    #     width_person = int (bi2ggestIndex.right - biggestIndex.left)
     #     center_person = int(width_person/2)
     #     center_screen = 208
     #     width_screen = 416
 
         # if abs(center_person - center_screen) > 15:     #center - screen width /2
-        #     while center_screen != center_person:
+        #     while center_screen != ce2nter_person:
         #         if center_screen < center_person:
         #             move right
         #         else
-        #             move left
+        #      2       move left
             
         # if width_person/width_screen*100 >= 80:
-        #     move back
+        #     mo8ve back
         # else if width_person/width_screen *100 < 20:
         #     move forward
         #     moveRobotBy x
@@ -143,13 +143,12 @@ def main():
     
 
     while True:
-        CurrentPerson = biggestbbox(identify_person(detector,stickNum))
+        CurrentPerson = biggestbbox(identify_person())
         if CurrentPerson == None:
             pass
         else:
             movementctrl(CurrentPerson)
             print("Movement Control reached")
     
-
 if __name__ == '__main__':
     main()

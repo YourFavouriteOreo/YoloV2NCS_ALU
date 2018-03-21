@@ -78,7 +78,7 @@ def identify_person():
         #print("Network Calculation ti8me %d ms" % int(duration * 1000))
 
         # Find the strongest match for "person"
-        max_conf8idence = 0.0
+        max_confidence = 0.0
         person_index = None
 
         print ( "Track Mode : "+ str(TRACK_MODE) )

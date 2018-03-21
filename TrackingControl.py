@@ -78,7 +78,7 @@ def identify_person():
             max_confidence = 0.0
             person_index = None
 
-            print ( "Track Mode : "+TRACK_MODE)
+            print ( "Track Mode : "+ TRACK_MODE)
             PersonList = []
 
             for index, r in enumerate(results):
@@ -111,6 +111,26 @@ def biggestbbox(PersonList):
 
 def movementctrl(PersonTracking):
     print("Person width is " + (PersonTracking.right - PersonTracking.left))
+    
+    # while bIsTracking:
+    #     width_person = int (biggestIndex.right - biggestIndex.left)
+    #     center_person = int(width_person/2)
+    #     center_screen = 208
+    #     width_screen = 416
+
+        # if abs(center_person - center_screen) > 15:     #center - screen width /2
+        #     while center_screen != center_person:
+        #         if center_screen < center_person:
+        #             move right
+        #         else
+        #             move left
+            
+        # if width_person/width_screen*100 >= 80:
+        #     move back
+        # else if width_person/width_screen *100 < 20:
+        #     move forward
+        #     moveRobotBy x
+
 
 def FindPerson():
     print("IS palce holder")
@@ -119,7 +139,7 @@ def main():
     if((len(sys.argv)>1) is False):
             print("No parameters passed . Please pass in image or video")
             return
-            
+
     while True:
         CurrentPerson = biggestbbox(identify_person())
         if CurrentPerson == None:

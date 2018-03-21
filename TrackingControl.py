@@ -144,7 +144,7 @@ def main():
     while True:
         CurrentPerson = biggestbbox(identify_person())
         if CurrentPerson == None:
-            break
+            pass
         else:
             movementctrl(CurrentPerson)
             print("Movement Control reached")

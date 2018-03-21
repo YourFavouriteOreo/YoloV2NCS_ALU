@@ -8,6 +8,7 @@ import time
 import matplotlib.pyplot as plt
 import matplotlib.patches as patches
 import picamera
+from interruptingcow import timeout
 
 LastPerson = ""
 
@@ -24,7 +25,7 @@ def main():
         print("No parameters passed . Please pass in image or video")
         return
 
-    parser = argparse.ArgumentParser()
+    arser = argparse.ArgumentParser()
     parser.add_argument('--graph', dest='graph', type=str,
                         default='graph', help='MVNC graphs.')
     parser.add_argument('--image', dest='image', type=str,
@@ -32,6 +33,10 @@ def main():
     parser.add_argument('--video', dest='video', type=str,
                         default='./videos/car.avi', help='A video path.')
     args = parser.parse_args()
+    
+
+def identify_people():
+    
 
     network_blob=args.graph
     imagefile = args.image
@@ -39,8 +44,6 @@ def main():
 
     detector = ObjectWrapper(network_blob)
     stickNum = ObjectWrapper.devNum
-
-
 
     if sys.argv[1] == '--image':
         # image preprocess
@@ -86,8 +89,6 @@ def main():
 
             print ('total time is %d milliseconds' % int(elapsedTime.total_seconds()*1000))
 
-
-
             filename = 'images/image_%d.jpg'%image
             #camera.capture(filename)
             #pil_image = Image.open(filename).convert('RGB')
@@ -122,35 +123,38 @@ def main():
                 plt.gcf().clear()
                 fig,ax = plt.subplots(1)
                 imgplot = ax.imshow(pil_image)
-
-            # Find the strongest match for "person"
+            
+            
             max_confidence = 0.0
             person_index = None
 
             print (TRACK_MODE)
-            PersonList = []
-
+            person_list = []
+           
             for index, r in enumerate(results):
-                #print("Found %s with confidence %g at Left: %g, Right %g, Top %g, Bottom %g" %(r.name, r.confidence, r.left, r.right, r.top, r.bottom))
+            #print("Found %s with confidence %g at Left: %g, Right %g, Top %g, Bottom %g" %(r.name, r.confidence, r.left, r.right, r.top, r.bottom))
+                
                 if r.name == "person" and r.confidence > max_confidence:
-                    PersonList.append(r)
+                    person_list.append(r)
                     max_confidence = r.confidence
                     person_index = index
                     print("Name is person. index is %d" % person_index)
                 else:
-                    print("%s is not person" % r.name)
-            
-            if (PersonList == {}):
+                    print("%s is not person", %r.name)
+                    
+            if (person_list.isEmpty()):
                 print("No people detected")
+                return None
+                # maybe call a method to move the robot
+            
             else:
-                BiggestIndex = None
-                for x in PersonList:
-                    if BiggestIndex is None:
-                        BiggestIndex = x
-                    elif (x != BiggestIndex):
-                        if ((BiggestIndex.left - BiggestIndex.right) < (x.left - x.right)):
-                            BiggestIndex = x
-
+                closest_person = find_closest(person_list)
+                closest_person_index = results(closest_person)
+                print("Closest person is: " + closest_person
+                       + " with index :" + closest_person_index)
+                return closest_person
+            
+            # WHAT IS THE USE OF THIS PART
             if person_index is not None:
                 r = results[person_index]
                 center = int((r.right + r.left)/2)
@@ -161,7 +165,7 @@ def main():
                     r = results[person_index]
                 #for r in results:
                     #print(r.name)
-                    text = r.name
+                    text = r.name2
                     width = r.right-r.left
                     height = r.bottom-r.top
 
@@ -175,7 +179,47 @@ def main():
                 plt.draw()
                 plt.pause(0.001)
                 plt.savefig('%s.png' % filename)
+
+# Find the strongest match for "person"
+def findClosest(person_list):
     
+    biggest_person = None
+    biggest_person_width = 500 #screen width
+
+    for person in person_list:
+        person_width = abs(person.left - person.right)
+        if (biggest_person_width < person_width):
+            biggest_person = person
+            biggest_person_width = person_width
+    
+    return biggest_person
+
+            
+def move_robot(tracked_person):
+    if(tracked_person not None):
+        width_person = int (tracked_person.right - tracked_person.left)
+        center_person = int(width_person/2)
+
+        center_screen = 208
+        width_screen = 416
+        
+        
+        with timeout() :
+            if abs(center_person - center_screen) > 15:     #center - screen width /2
+                if center_screen < center_person:
+                    move right
+                else
+                    move left
+                
+                if width_person/width_screen *100 >= 80
+                    # move back
+                else if width_person/width_screen *100 < 20
+                    # advance
+            
+       
+    else:
+        pass
+
 
 if __name__ == '__main__':
     main()

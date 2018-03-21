@@ -12,15 +12,11 @@ import picamera
 
 LastPerson = ""
 bIsTracking = False
-
+count = 0
 
 TRACK_MODE = True
 
-def main():
-    if((len(sys.argv)>1) is False):
-        print("No parameters passed . Please pass in image or video")
-        return
-
+def identify_person():
     parser = argparse.ArgumentParser()
     parser.add_argument('--graph', dest='graph', type=str,
                         default='graph', help='MVNC graphs.')
@@ -37,11 +33,6 @@ def main():
     detector = ObjectWrapper(network_blob)
     stickNum = ObjectWrapper.devNum
     
-
-        #imdraw = Visualize(img, results)
-        #cv2.imshow('Demo',imdraw)
-        #cv2.imwrite('test.jpg',imdraw)
-        #cv22.waitKey(10000)
     if sys.argv[1] == '--video':
         plt.ion()
         plt.show()
@@ -52,9 +43,7 @@ def main():
         start_time = datetime.now()
 
         stream = io.BytesIO()
-        #camera.resolution = (320,180)
         camera.resolution = (320,180)
-        #camera.start_preview()
         time.sleep(2)
 
         for image in range(100):
@@ -66,9 +55,6 @@ def main():
 
 
             filename = 'images/image_%d.jpg'%image
-            #camera.capture(filename)
-            #pil_image = Image.open(filename).convert('RGB')
-
             start = time.time()
 
             stream.seek(0)
@@ -78,12 +64,9 @@ def main():
             pil_image = Image.open(stream)
             open_cv_image = np.array(pil_image)
             # Convert RGB to BGR
-            print(open_cv_image)
-            print("PEANUTS!")
             open_cv_image = open_cv_image[:, :, ::-1].copy()
-            print(open_cv_image)
-            duration = time.time() - start
-            convert_duration = time.time() - convert
+            dura8tion = time.time() - start
+            conve8rt_duration = time.time() - convert
             #print("Image sampling time %d ms including %d ms to convert the image." % (int(duration * 1000), int(convert_duration * 1000)))
 
             start = time.time()
@@ -91,47 +74,60 @@ def main():
             duration = time.time() - start
             #print("Network Calculation time %d ms" % int(duration * 1000))
 
-            # ['__class__', '__delattr__', '__dict__', '__dir__', '__doc__', '__eq__', '__format__', '__ge__', '__getattribute__', '__gt__', '__hash__',
-            # '__init__', '__le__', '__lt__', '__module__', '__ne__', '__new__', '__reduce__', '__reduce_ex__', '__repr__', '__setattr__', '__sizeof__',
-            # '__str__', '__subclasshook__2', '__weakref__', 'bottom', 'confidence', 'left', 'name', 'objType', 'right', 'top']
-            #
-            # Found person at Left: 124, Right 298, Top 13, Bottom 168
-
             # Find the strongest match for "person"
             max_confidence = 0.0
             person_index = None
 
-            print (TRACK_MODE)
+            print ( "Track Mode : "+TRACK_MODE)
             PersonList = []
 
             for index, r in enumerate(results):
-                #print("Found %s with confidence %g at Left: %g, Right %g, Top %g, Bottom %g" %(r.name, r.confidence, r.left, r.right, r.top, r.bottom))
+                print("Found %s with confidence %g at Left: %g, Right %g, Top %g, Bottom %g" %(r.name, r.confidence, r.left, r.right, r.top, r.bottom))
                 if r.name == "person" and r.confidence > max_confidence:
                     PersonList.append(r)
                     max_confidence = r.confidence
-                    person_index = index
+                    person_index = index 
                     print("Name is person. index is %d" % person_index)
                 else:
                     print("%s is not person" % r.name)
+    return PersonList
             
-            if (PersonList == {}):
-                print("No people detected")
-                bIsTracking = False
-            else:
-                BiggestIndex = None
-                for x in PersonList:
-                    if BiggestIndex is None:
-                        BiggestIndex = x
-                    elif (x != BiggestIndex):
-                        if ((BiggestIndex.left - BiggestIndex.right) < (x.left - x.right)):
-                            BiggestIndex = x
-                bIsTracking = True
+                
+def biggestbbox(PersonList):
+    biggestIndex = None
+    if (PersonList == []):
+                bIsTracking = False   
+    else:
+        for person in PersonList:
+            if biggestIndex is None:
+                biggestIndex = person
+            elif (person != biggestIndex):
+                biggestIndex_width = abs(biggestIndex.right - biggestIndex.left)
+                person_width = abs(person.right - person.left)
+                if (biggestIndex_width < person_width):
+                    biggestIndex = person
+        bIsTracking = True
+    return biggestIndex
 
+def movementctrl(PersonTracking):
+    print("Person width is " + (PersonTracking.right - PersonTracking.left))
 
-            if person_index is not None:
-                r = results[person_index]
-                center = int((r.right + r.left)/2)
-                print_spaces(center)
+def FindPerson():
+    print("IS palce holder")
+
+def main():
+    if((len(sys.argv)>1) is False):
+            print("No parameters passed . Please pass in image or video")
+            return
+            
+    while True:
+        CurrentPerson = biggestbbox(identify_person())
+        if CurrentPerson == None:
+            break
+        else:
+            movementctrl(CurrentPerson)
+    
+
 
 if __name__ == '__main__':
     main()

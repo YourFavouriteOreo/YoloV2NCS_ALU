@@ -13,7 +13,7 @@ import picamera
 
 LastPerson = ""
 bIsTracking = False
-count = 0
+
 
 TRACK_MODE = True
 
@@ -138,6 +138,7 @@ def FindPerson():
     print("IS palce holder")
 
 def main():
+    count = 0
     if((len(sys.argv)>1) is False):
             print("No parameters passed . Please pass in image or video")
             return

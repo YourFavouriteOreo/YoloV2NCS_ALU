@@ -18,23 +18,6 @@ detector = None
 stickNum = None
 TRACK_MODE = True
 
-def argumentParsing():
-    parser = argparse.ArgumentParser()
-    parser.add_argument('--graph', dest='graph', type=str,
-                        default='graph', help='MVNC graphs.')
-    parser.add_argument('--image', dest='image', type=str,
-                        default='./images/dog.jpg', help='An image path.')
-    parser.add_argument('--video', dest='video', type=str,
-                        default='./videos/car.avi', help='A video path.')
-    args = parser.parse_args()
-
-    network_blob=args.graph
-    imagefile = args.image
-    videofile = args.video
-
-    detector = ObjectWrapper(network_blob)
-    stickNum = ObjectWrapper.devNum
-
 def identify_person():
     
     if sys.argv[1] == '--video':
@@ -143,8 +126,22 @@ def main():
     if((len(sys.argv)>1) is False):
             print("No parameters passed . Please pass in image or video")
             return
-    else:
-        argumentParsing()
+    
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--graph', dest='graph', type=str,
+                        default='graph', help='MVNC graphs.')
+    parser.add_argument('--image', dest='image', type=str,
+                        default='./images/dog.jpg', help='An image path.')
+    parser.add_argument('--video', dest='video', type=str,
+                        default='./videos/car.avi', help='A video path.')
+    args = parser.parse_args()
+
+    network_blob=args.graph
+    imagefile = args.image
+    videofile = args.video
+
+    detector = ObjectWrapper(network_blob)
+    stickNum = ObjectWrapper.devNum
 
     while True:
         CurrentPerson = biggestbbox(identify_person())

@@ -19,7 +19,7 @@ TRACK_MODE = True
 
 def identify_person():
     parser = argparse.ArgumentParser()
-    parser.add_argument('--graph', dest='graph', type=str,
+    pars8er.add_argument('--graph', dest='graph', type=str,
                         default='graph', help='MVNC graphs.')
     parser.add_argument('--image', dest='image', type=str,
                         default='./images/dog.jpg', help='An image path.')
@@ -47,55 +47,56 @@ def identify_person():
         camera.resolution = (320,180)
         time.sleep(2)
 
-        for image in range(100):
-            elapsedTime = datetime.now()-start_time
-            start_time = datetime.now()
+        
+        elapsedTime = datetime.now()-start_time
+        start_time = datetime.now()
 
-            print ('total time is %d milliseconds' % int(elapsedTime.total_seconds()*1000))
+        print ('total time is %d milliseconds' % int(elapsedTime.total_seconds()*1000))
+
+        count +=1
 
 
+        filename = 'images/image_%d.jpg'%count
+        start = time.time()
 
-            filename = 'images/image_%d.jpg'%image
-            start = time.time()
+        stream.seek(0)
+        camera.capture(stream, format='jpeg')
+        stream.seek(0)
+        convert = time.time()
+        pil_image = Image.open(stream)
+        open_cv_image = np.array(pil_image)
+        # Convert RGB to BGR
+        open_cv_image = open_cv_image[:, :, ::-1].copy()
+        duration = time.time() - start
+        convert_duration = time.time() - convert
+        #print("Image sampling time %d ms including %d ms to convert the image." % (int(duration * 1000), int(convert_duration * 1000)))
 
-            stream.seek(0)
-            camera.capture(stream, format='jpeg')
-            stream.seek(0)
-            convert = time.time()
-            pil_image = Image.open(stream)
-            open_cv_image = np.array(pil_image)
-            # Convert RGB to BGR
-            open_cv_image = open_cv_image[:, :, ::-1].copy()
-            dura8tion = time.time() - start
-            conve8rt_duration = time.time() - convert
-            #print("Image sampling time %d ms including %d ms to convert the image." % (int(duration * 1000), int(convert_duration * 1000)))
+        start = time.time()
+        results = detector.Detect(open_cv_image)
+        duration = time.time() - start
+        #print("Network Calculation time %d ms" % int(duration * 1000))
 
-            start = time.time()
-            results = detector.Detect(open_cv_image)
-            duration = time.time() - start
-            #print("Network Calculation time %d ms" % int(duration * 1000))
+        # Find the strongest match for "person"
+        max_confidence = 0.0
+        person_index = None
 
-            # Find the strongest match for "person"
-            max_confidence = 0.0
-            person_index = None
+        print ( "Track Mode : "+ str(TRACK_MODE) )
+        PersonList = []
 
-            print ( "Track Mode : "+ str(TRACK_MODE) )
-            PersonList = []
-
-            for index, r in enumerate(results):
-                print("Found %s with confidence %g at Left: %g, Right %g, Top %g, Bottom %g" %(r.name, r.confidence, r.left, r.right, r.top, r.bottom))
-                if r.name == "person" and r.confidence > max_confidence:
-                    PersonList.append(r)
-                    max_confidence = r.confidence
-                    person_index = index 
-                    print("Name is person. index is %d" % person_index)
-                else:
-                    print("%s is not person" % r.name)
+        for index, r in enumerate(results):
+            print("Found %s with confidence %g at Left: %g, Right %g, Top %g, Bottom %g" %(r.name, r.confidence, r.left, r.right, r.top, r.bottom))
+            if r.name == "person" and r.confidence > max_confidence:
+                PersonList.append(r)
+                max_confidence = r.confidence
+                person_index = index 
+                print("Name is person. index is %d" % person_index)
+            else:
+                print("%s is not person" % r.name)
     return PersonList
             
                 
 def biggestbbox(PersonList):
-    biggestIndex = None
+    biggestIndex2 = None
     if (PersonList == []):
                 bIsTracking = False   
     else:

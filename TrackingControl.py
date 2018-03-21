@@ -113,16 +113,16 @@ def biggestbbox(PersonList):
     return biggestIndex
 
 def movementctrl(PersonTracking):
-    print("Pers8on width is " + (PersonTracking.right - PersonTracking.left))
+    print("Person width is " + (PersonTracking.right - PersonTracking.left))
     
     # while bIsTracking:
-    #     width_2person = int (biggestIndex.right - biggestIndex.left)
+    #     width_person = int (biggestIndex.right - biggestIndex.left)
     #     center_person = int(width_person/2)
     #     center_screen = 208
     #     width_screen = 416
 
         # if abs(center_person - center_screen) > 15:     #center - screen width /2
-        #     wh8ile center_screen != center_person:
+        #     while center_screen != center_person:
         #         if center_screen < center_person:
         #             move right
         #         else
@@ -147,7 +147,7 @@ def main():
     while True:
         CurrentPerson = biggestbbox(identify_person())
         if CurrentPerson == None:
-            break
+            pass
         else:
             movementctrl(CurrentPerson)
             print("Movement Control reached")

@@ -19,7 +19,7 @@ TRACK_MODE = True
 
 def identify_person():
     parser = argparse.ArgumentParser()
-    pars8er.add_argument('--graph', dest='graph', type=str,
+    parser.add_argument('--graph', dest='graph', type=str,
                         default='graph', help='MVNC graphs.')
     parser.add_argument('--image', dest='image', type=str,
                         default='./images/dog.jpg', help='An image path.')
@@ -96,7 +96,7 @@ def identify_person():
             
                 
 def biggestbbox(PersonList):
-    biggestIndex2 = None
+    biggestIndex = None
     if (PersonList == []):
                 bIsTracking = False   
     else:
@@ -115,7 +115,7 @@ def movementctrl(PersonTracking):
     print("Person width is " + (PersonTracking.right - PersonTracking.left))
     
     # while bIsTracking:
-    #     width_person = int (biggestIndex.right - biggestIndex.left)
+    #     width_2person = int (biggestIndex.right - biggestIndex.left)
     #     center_person = int(width_person/2)
     #     center_screen = 208
     #     width_screen = 416

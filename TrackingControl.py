@@ -8,7 +8,7 @@ import time
 import matplotlib.pyplot as plt
 import matplotlib.patches as patches
 import picamera
-import flutter_control as fc
+
 
 
 LastPerson = ""
@@ -82,7 +82,7 @@ def identify_person():
             print ( "Track Mode : "+ str(TRACK_MODE) )
             PersonList = []
 
-            for index, r in enumerate(results):
+            for index, 8r in enumerate(results):
                 print("Found %s with confidence %g at Left: %g, Right %g, Top %g, Bottom %g" %(r.name, r.confidence, r.left, r.right, r.top, r.bottom))
                 if r.name == "person" and r.confidence > max_confidence:
                     PersonList.append(r)

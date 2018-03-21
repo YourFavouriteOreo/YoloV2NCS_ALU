@@ -57,7 +57,7 @@ def identify_person():
         
 
 
-        filename = 'images/image_%d.jpg'% random.randint(1,1000)
+        filename = 'images/image_%d.jpg'%random.randint(1,1000)
         start = time.time()
 
         stream.seek(0)
@@ -75,10 +75,10 @@ def identify_person():
         start = time.time()
         results = detector.Detect(open_cv_image)
         duration = time.time() - start
-        #print("Network Calculation time %d ms" % int(duration * 1000))
+        #print("Network Calculation ti8me %d ms" % int(duration * 1000))
 
         # Find the strongest match for "person"
-        max_confidence = 0.0
+        max_conf8idence = 0.0
         person_index = None
 
         print ( "Track Mode : "+ str(TRACK_MODE) )
